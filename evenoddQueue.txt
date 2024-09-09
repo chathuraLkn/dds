@@ -1,0 +1,97 @@
+import java.util.Scanner;
+
+public class Queue {
+	private int[] queueArr;
+	private int maxSize;
+	private int rear;
+	private int front;
+	private int nItems;
+
+	// Constructor to initialize the queue
+	public Queue(int s) {
+		maxSize = s;
+		queueArr = new int[maxSize];
+		rear = -1;
+		front = 0;
+		nItems = 0;
+	}
+
+	// Method to check if the queue is empty
+	public boolean isEmpty() {
+		return (nItems == 0);
+	}
+
+	// Method to check if the queue is full
+	public boolean isFull() {
+		return (rear == (maxSize - 1));
+	}
+
+	// Insert method for the queue
+	public void insert(int j) {
+		if (isFull()) {
+			System.out.println("Queue is full");
+		} else {
+			queueArr[++rear] = j;
+			nItems++;
+		}
+	}
+
+	// Remove method for the queue
+	public int remove() {
+		if (isEmpty()) {
+			System.out.println("Queue is empty");
+			return -99;
+		} else {
+			nItems--;
+			return queueArr[front++];
+		}
+	}
+}
+
+public class main {
+	public static void main(String[] args) {
+		Queue queueX = new Queue(5);  // Main queue to hold transaction IDs
+
+		Scanner scanner = new Scanner(System.in);
+
+		int inputStr;
+
+		// Insert 5 transaction IDs into the queue
+		for (int i = 0; i < 5; i++) {  // Changed to <5 instead of <=5 to avoid overflow
+			System.out.println("Enter transaction Id:");
+			inputStr = scanner.nextInt();
+			queueX.insert(inputStr);
+		}
+
+		// Separate queues for even and odd transaction IDs
+		Queue evenQueue = new Queue(5);
+		Queue oddQueue = new Queue(5);
+
+		int value;
+
+		// Split values into even and odd queues
+		while (!queueX.isEmpty()) {
+			value = queueX.remove();  // Remove values from main queue
+
+			if (value % 2 == 0) {
+				evenQueue.insert(value);  // Insert even values into evenQueue
+			} else {
+				oddQueue.insert(value);  // Insert odd values into oddQueue
+			}
+		}
+
+		// Print even queue (PC1)
+		System.out.println("PC1");
+		while (!evenQueue.isEmpty()) {
+			System.out.println("Transaction Id: " + evenQueue.remove());
+		}
+
+		// Print odd queue (PC2)
+		System.out.println("PC2");
+		while (!oddQueue.isEmpty()) {
+			System.out.println("Transaction Id: " + oddQueue.remove());
+		}
+
+		scanner.close();  // Close the scanner
+	}
+}
