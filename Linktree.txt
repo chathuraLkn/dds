@@ -1,0 +1,139 @@
+//Link .java 
+package linkedList;
+
+public class Link {
+	public String name;
+	public double avg;
+	public Link next;
+	
+	public Link(String name,double avg) {
+		this.name=name;
+		this.avg=avg;
+		this.next=null;
+		
+	}
+	
+	public void displayDetails() {
+		System.out.println("Name: " +name+ "\t ||  Avg: " +avg);
+		
+	}
+//LinkList.java
+package linkedList;
+
+public class LinkedList {
+private Link first;
+	
+	public LinkedList() {
+		first= null;
+		
+	} 
+	
+	public boolean isEmpty() {
+		return  (first==null);
+		
+	}
+
+	public void insertFirst(String name,double avg){
+		Link newLink = new Link(name, avg);//create new link
+		newLink.next=first;//link new link to existing link
+		first=newLink;//assign new link as first
+
+	}
+	
+	public Link deleteFirst() {
+		Link temp=first;//change the reference to first to temp
+		first=first.next; //change the first reference to next available link
+        return temp;
+	}
+	
+	public void displayFirst() {
+		Link current=first;//in order to start from beginning
+		
+		while(current!=null) {
+			current.displayDetails(); //printing the link
+		current=current.next;// move to the  next link
+
+	}
+	}
+	
+	
+	public Link deleteLink(String name) {
+		
+		Link current=first;
+		Link previous=first;
+		
+		if (current== null) {
+			return null; //link is empty
+		}
+		
+		while (!current.name.equals(name)) {
+			previous=current;
+			current=current.next;
+			 
+			if(current == null) {
+				return null; //if there are any elements to be deleted
+				
+			}
+		}
+		
+		if(current==first) {
+			first=first.next;	
+		}
+		else {
+			previous.next= current.next;
+			
+		}
+		return current;
+	}
+}
+
+//LinkMain.java
+package linkedList;
+
+public class LinkMain {
+
+	public static void main(String[] args) {
+		//object(link)
+		Link Nipuna= new Link("Nipuna", 98.0);
+		Link Aravinda= new Link("Aravinda", 78.0);
+		Link Zoe= new Link("Zoe", 88.5);
+		
+		Nipuna.next=Aravinda;
+		Aravinda.next=Zoe;
+		//Nipuna.next.next=Zoe;
+		Zoe.next=null;
+		
+		Nipuna.displayDetails();
+		Aravinda.displayDetails();
+		Zoe.displayDetails();
+
+	}
+
+}
+//Main.java
+package linkedList;
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		LinkedList studentlist= new LinkedList();
+		
+		studentlist.insertFirst("Zoe", 89.5);
+		studentlist.insertFirst("Aravinda" ,78.0);
+		studentlist.insertFirst("Nipuna" ,98.0);
+		
+		studentlist.displayFirst();
+		
+		studentlist.deleteLink("Nipuna");
+		
+		System.out.println();
+		System.out.println("----delete----");
+		System.out.println();
+		
+		studentlist.displayFirst();
+		
+	}
+
+}
+
