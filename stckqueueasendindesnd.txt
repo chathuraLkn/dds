@@ -1,0 +1,136 @@
+package test02;
+
+import java.util.Scanner;
+
+class Stack {
+	private int top;
+	private int maxSize;
+	private char arrayst[];
+
+	// Constructor
+	public Stack(int size) {
+		this.top = -1;
+		this.maxSize = size;
+		this.arrayst = new char[maxSize];
+	}
+
+	public void push(char item) {
+		if (isFull()) {
+			System.out.println("Stack is full");
+		} else {
+			arrayst[++top] = item;  // Only increment once
+		}
+	}
+
+	public char pop() {
+		if (isEmpty()) {
+			System.out.println("Stack is empty");
+			return 0;  // return 0 when stack is empty
+		} else {
+			return arrayst[top--];  // return the top element and decrement
+		}
+	}
+
+	public boolean isFull() {
+		return (top == maxSize - 1);
+	}
+
+	public boolean isEmpty() {
+		return (top == -1);
+	}
+}
+
+class Queue {
+	private int rear;
+	private int front;
+	private int noOfItems;
+	private int maxSize;
+	private char arrayQ[];
+
+	public Queue(int size) {
+		this.rear = -1;  // Corrected rear initialization
+		this.front = 0;
+		this.noOfItems = 0;
+		this.maxSize = size;
+		this.arrayQ = new char[maxSize];
+	}
+
+	public void insert(char item) {
+		if (noOfItems == maxSize) {
+			System.out.println("Queue is full");
+		} else {
+			if (rear == maxSize - 1) {  // Wrap around
+				rear = -1;
+			}
+			arrayQ[++rear] = item;
+			noOfItems++;
+		}
+	}
+
+	public char remove() {
+		if (noOfItems == 0) {
+			System.out.println("Queue is empty");
+			return 0;
+		} else {
+			char temp = arrayQ[front++];
+			if (front == maxSize) {  // Wrap around
+				front = 0;
+			}
+			noOfItems--;
+			return temp;
+		}
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		Queue q1 = new Queue(10);
+		Stack s1 = new Stack(5);
+
+		System.out.println("----Input Items----");
+
+		// Insert items into the queue
+		for (int i = 0; i < 4; i++) {
+			System.out.println("Enter item: ");
+			char item = sc.next().charAt(0);
+			q1.insert(item);
+		}
+
+		// Remove items from the queue and push to stack
+		for (int i = 0; i < 4; i++) {
+			s1.push(q1.remove());
+		}
+
+		// Pop items from the stack and insert back to queue
+		for (int i = 0; i < 4; i++) {
+			q1.insert(s1.pop());
+		}
+
+		// Transfer items from queue to temporary queue and stack
+		Queue tempQueue = new Queue(5);
+		for (int i = 0; i < 4; i++) {
+			char c = q1.remove();
+			tempQueue.insert(c);
+			s1.push(c);
+		}
+
+		// Pop items from stack and insert back to queue
+		for (int i = 0; i < 4; i++) {
+			q1.insert(tempQueue.remove());
+		}
+
+		// Now, pop elements from the stack and insert them into queue (only the correct number of items)
+		for (int i = 0; i < 4; i++) {
+			q1.insert(s1.pop());
+		}
+
+		System.out.println("====Final Queue====");
+
+		// Display final queue content
+		for (int i = 0; i < 4; i++) {
+			System.out.println("Item: " + q1.remove());
+		}
+	}
+}
