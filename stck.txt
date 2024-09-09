@@ -1,0 +1,101 @@
+package test01;
+
+import java.util.Scanner;
+
+public class Stack {
+	
+	private char[] stackArr;  // Array to store stack elements
+	private int maxsize;      // Maximum size of the stack
+	private int top;          // Index of the top element in the stack
+
+	// Constructor to initialize the stack with a given size
+	public Stack(int maxsize) {
+		this.maxsize = maxsize;
+		stackArr = new char[maxsize]; // Initialize array of characters
+		top = -1;                     // Set the stack to be empty
+	}
+	
+	// Method to check if the stack is empty
+	public boolean isEmpty() {
+		return (top == -1);
+	}
+	
+	// Method to check if the stack is full
+	public boolean isFull() {
+		return (maxsize - 1 == top);
+	}
+	
+	// Method to push a character onto the stack
+	public void push(char c) {
+		if (isFull()) {
+			System.out.println("stack is full");
+		} else {
+			stackArr[++top] = c; // Increment top and add character to stack
+		}
+	}
+	
+	// Method to return the top element without removing it
+	public char peek() {
+		if (isEmpty()) {
+			System.out.print("stack is empty");
+			return 0;  // Return 0 if stack is empty
+		} else {
+			return stackArr[top];  // Return the top element
+		}
+	}
+	
+	// Method to pop (remove and return) the top element
+	public char pop() {
+		if (isEmpty()) {  // Check if the stack is empty
+			return 0;     // Return 0 if empty
+		} else {
+			return stackArr[top--];  // Return top element and decrement top
+		}
+	}
+
+
+
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+//		
+//		s.push('a');
+//		s.push('b');
+//		s.push('c');
+//		s.push('d');
+//		s.push('e');
+//		s.push('f');
+//		
+//		while(!s.isEmpty()) {
+//			System.out.println(s.pop());
+//		}
+		Scanner sn = new Scanner (System.in);
+		
+		System.out.println("enter a expression =");
+		String ex = sn.nextLine();
+		
+		
+		int len = ex.length();
+		Stack s = new Stack(len);
+		
+		for (int i=0;i<len;i++) {
+			if(ex.charAt(i)=='(') {
+				s.push('(');
+			}else if(ex.charAt(i)== ')') {
+				if(s.isEmpty()) {
+					System.out.println("the statment is not correctly");
+					return;
+				}else {
+					s.pop();
+				}
+			}
+		}
+		if(s.isEmpty()) {
+			System.out.println("the statmet is correctly ");
+		}else {
+			System.out.println("the statmet is not correctly ");
+		}
+	}
+
+}
