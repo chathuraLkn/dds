@@ -1,0 +1,216 @@
+Node java clzz
+package Tree;
+
+public class Node {
+	public String name;
+	public int Empno;
+	
+	public Node leftChild,rightChild;
+	
+	public void displayNode() {
+		System.out.println("Empno: " +Empno + "\t Name:" +name);
+		
+	}
+
+}
+--------
+
+//tree java clzz
+package Tree;
+
+public class Tree {
+	private Node root;
+	
+	public void insert(int Empno,String name ) {
+		Node newNode= new Node();
+		newNode.Empno=Empno;
+		newNode.name=name;
+		
+		if(root==null) {
+			root= newNode;//if tree is empty make the new code as root
+		}
+		else {
+			Node current=root;
+			Node parent;
+			
+			while(true) {
+				parent=current;
+				if(Empno<current.Empno) {//Assigning left child 
+					current=current.leftChild;
+					if(current==null) {
+						parent.leftChild=newNode;
+						return;
+					}
+					
+				}
+				else {//Assigning right child
+					current=current.rightChild;
+					if(current==null) {
+						parent.rightChild=newNode;
+						return;
+					}
+					
+				}
+			}
+		}
+	}
+//left,root,right
+	public void inOrder(Node localRoot) {
+		if(localRoot!=null){
+			inOrder(localRoot.leftChild);
+			localRoot.displayNode();
+			inOrder(localRoot.rightChild);
+			
+		}
+	}
+	
+	public void TraverseinOrder() {
+		inOrder(root);
+	}
+	
+	//root,left,right
+		public void preOrder(Node localRoot) {
+			if(localRoot!=null){
+				localRoot.displayNode();
+				inOrder(localRoot.leftChild);
+				inOrder(localRoot.rightChild);
+				
+			}
+		}
+		
+		public void TraversepreOrder() {
+			preOrder(root);
+		}
+		
+		
+	//left,right,root
+		
+	  public void postOrder(Node localRoot) {
+					if(localRoot!=null){
+						inOrder(localRoot.leftChild);
+						inOrder(localRoot.rightChild);
+						localRoot.displayNode();
+						
+					}
+				}
+				
+				public void TraversepostOrder() {
+					postOrder(root);
+				}
+	
+				
+		//search using localRoot
+	private Node findRescursive(Node localRoot,int empno) {
+		if(localRoot==null) {
+			return null;
+		}
+		else if(localRoot.Empno==empno){
+			System.out.println(localRoot.name);
+			return localRoot;
+		}
+		else if(empno<localRoot.Empno) {
+			return findRescursive(localRoot.leftChild,empno);
+		}
+		else {
+			return findRescursive(localRoot.rightChild,empno);
+		
+		}
+	}			
+	
+	public Node callRescursive(int empno) {
+		return findRescursive(root,empno);
+	}
+	
+	//search using current
+	public Node find(int empno) {
+		Node current=root;
+		while(current.Empno!=empno) {
+			
+			if(empno<current.Empno) {
+				current=current.leftChild;
+			}
+			else {
+				current=current.rightChild;
+			}
+			
+			if(current==null) {
+				System.out.println("Error not found");
+				return null;
+			}
+			
+		}
+		       //find and print Empno
+		System.out.println("Employee name:" +current.name);
+		return null;
+		
+	}
+	
+	public void deleteAll() {
+		root=null;
+	}
+}
+
+//main methord
+package Tree;
+import java.util.*;
+public class Main {
+	public static void main(String[] args) {
+		
+		Tree t=new Tree();
+		
+		t.insert(149 ,"Anusha");
+		t.insert(167 ,"Kosala");
+		t.insert(047 ,"Dinusha");
+		t.insert(066 ,"Mihiri");
+		t.insert(159 ,"Jayani");
+		t.insert(118 ,"Nimal");
+		t.insert(195 ,"Nishantha");
+		t.insert(034 ,"Avodya");
+		t.insert(105 ,"Bimali");
+		t.insert(133 ,"Sampath");
+		
+		System.out.println("InOrder");
+		t.TraverseinOrder();
+		System.out.println();
+		
+		System.out.println("PreOrder");
+		t.TraversepreOrder();
+		System.out.println();
+		
+		System.out.println("PostOrder");
+		t.TraversepostOrder();
+		System.out.println();
+		
+		int value;
+		
+		Scanner sc= new Scanner(System.in);
+		
+		System.out.println();
+		System.out.print("Enter Employee no:");
+		value=sc.nextInt();
+		t.find(value);
+		
+		
+		System.out.println();
+		t.deleteAll();
+		
+		
+		System.out.println("After delete");
+	    t.callRescursive(133);
+	    
+	    System.out.println("InOrder");
+		t.TraverseinOrder();
+		
+		System.out.println("PreOrder");
+		t.TraversepreOrder();
+		
+		System.out.println("PostOrder");
+		t.TraversepostOrder();
+		
+		Node n1=new Node();
+		System.out.println();
+		n1.displayNode();
+
+	}
+
+}
